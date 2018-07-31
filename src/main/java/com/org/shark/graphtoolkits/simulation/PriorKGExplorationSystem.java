@@ -128,12 +128,12 @@ public class PriorKGExplorationSystem extends BaseKGExplorationSystem {
 
         int idx = 0;
         int size = candidateAspectList.size();
-        int cnt = 0;
-        for(CompoundAspect o : candidateAspectList) {
-            cnt ++;
-            if(cnt == 10) break;
-            System.out.println(o.getScore());
-        }
+//        int cnt = 0;
+//        for(CompoundAspect o : candidateAspectList) {
+//            cnt ++;
+//            if(cnt == 10) break;
+//            System.out.println(o.getScore());
+//        }
         res = null;
         while(idx < size && res == null) {
             CompoundAspect tmp = candidateAspectList.get(idx);

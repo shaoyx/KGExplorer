@@ -65,18 +65,21 @@ public class NaiveBayes {
         double totCnt = dataCnt;
         double tmp = 0.0;
         for(int aid : priorAttrCnt.keySet()) {
-            /* prob(label) * prob(aid|label)/prob(aid) = prob(label|aid) */
-            if(priorAttrCnt.get(aid) == dataCnt) continue; //TODO: this aspect(aid) has no ability to distinct examples.
-
+//            /* prob(label) * prob(aid|label)/prob(aid) = prob(label|aid) */
+//            if(priorAttrCnt.get(aid) == dataCnt) continue; //TODO: this aspect(aid) has no ability to distinct examples.
+//
+//            double cnt = expAttrSet.contains(aid) ? negCondCnt.getOrDefault(aid, 0) : (negExpCnt - negCondCnt.getOrDefault(aid, 0));
+//            double priorCnt = expAttrSet.contains(aid) ? priorAttrCnt.get(aid) : (totCnt - priorAttrCnt.get(aid));
+//            if(cnt == 0) {
+//                tmp = Double.NEGATIVE_INFINITY;
+//                break;
+//            }
+//            tmp +=  Math.log(cnt) - Math.log(priorCnt);
+////            res = res * (negExpCnt / totCnt) * (cnt / negExpCnt)
+////                    / (priorCnt / totCnt);
+            //True Naive Bayies: p(A|c)= PI p(ai|c)
             double cnt = expAttrSet.contains(aid) ? negCondCnt.getOrDefault(aid, 0) : (negExpCnt - negCondCnt.getOrDefault(aid, 0));
-            double priorCnt = expAttrSet.contains(aid) ? priorAttrCnt.get(aid) : (totCnt - priorAttrCnt.get(aid));
-            if(cnt == 0) {
-                tmp = Double.NEGATIVE_INFINITY;
-                break;
-            }
-            tmp +=  Math.log(cnt) - Math.log(priorCnt);
-//            res = res * (negExpCnt / totCnt) * (cnt / negExpCnt)
-//                    / (priorCnt / totCnt);
+            tmp += Math.log(cnt + 1);
         }
         res = tmp;
         return res;

@@ -183,6 +183,11 @@ public class RDFGraphWithAspect extends RDFGraph {
         return res;
     }
 
+    /**
+     * This method is expensive!!!
+     * @param eid
+     * @return
+     */
     public HashSet<Integer> getAspectSet(Integer eid) {
         HashSet<Integer> res = new HashSet<Integer>();
         if(this.aspectDir == Direction.BOTH || this.aspectDir == Direction.OUT) {

@@ -45,14 +45,20 @@ public abstract class BaseKGExplorationSystem implements IKGExplorationSystem {
         execStateTransition(this.currentState);
 
         //2. find next valid state and valid the results
+        //TODO: may cause many loops so that it does not finish.
+        int interCnt = 0;
         do {
             this.currentState = nextValidState();
             this.currentRes = kgService.query(this.currentState);
             this.isSuccess = checkResults(this.currentRes, groundTruth); //TODO: this should be off for interative mode.
+            interCnt++;
+            if(interCnt % 100 == 0) {
+                System.out.println("InterCnt = "+interCnt);
+            }
         }while(this.currentRes != null && !this.isSuccess && !hasInformationGain(this.currentRes, totExample));
 
         if (this.currentState != null) {
-            System.out.println(String.format("!!! compound aspect %s: res size %d.", this.currentState.toString(), this.currentRes.size()));
+            System.out.println(String.format("!!! compound aspect %s: res size %d, interCnt %d.", this.currentState.toString(), this.currentRes.size(), interCnt));
         }
 
         return this.currentRes;
@@ -75,7 +81,7 @@ public abstract class BaseKGExplorationSystem implements IKGExplorationSystem {
                 return true;
         }
         if(this.currentState != null) {
-            this.uselessAspectSet.add(this.currentState);
+            this.uselessAspectSet.add(this.currentState); //TODO: we should do some preprocessing to construct this useless information.
         }
         return false;
     }
